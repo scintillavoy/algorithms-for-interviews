@@ -521,13 +521,11 @@ query(1, 0, N - 1, left, right);
 ## Fenwick tree (binary indexed tree)
 
 - (Korean) <https://www.acmicpc.net/blog/view/21>
+- <https://stackoverflow.com/questions/64190332/fenwick-tree-vs-segment-tree>
 - <https://leetcode.com/problems/count-good-triplets-in-an-array>
 
 ```cpp
 class FenwickTree {
- private:
-  vector<int> tree;
-
  public:
   // Indices start at 1.
   FenwickTree(int size) : tree(size + 1, 0) {}
@@ -551,6 +549,9 @@ class FenwickTree {
     }
     return result;
   }
+
+ private:
+  vector<int> tree;
 };
 ```
 
