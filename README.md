@@ -463,7 +463,7 @@ void union_set(int x, int y) {
 - (Korean) <https://book.acmicpc.net/ds/segment-tree>
 
 ```cpp
-vector<int> A(N); // The index starts from 0.
+vector<int> A(N); // Indices start at 0.
 vector<int> tree(1 << ((int)ceil(log2(N)) + 1)); // N * 4
 
 // Time complexity: O(N)
@@ -511,11 +511,47 @@ int query(int node, int start, int end, int left, int right) {
 }
 query(1, 0, N - 1, left, right);
 
-// For the index starting from 1,
+// For indices starting at 1,
 // vector<int> A(N + 1);
 // init(1, 1, N);
 // query(1, 1, N, left, right);
 // update(1, 1, N, index, value);
+```
+
+## Fenwick tree (binary indexed tree)
+
+- (Korean) <https://www.acmicpc.net/blog/view/21>
+- <https://leetcode.com/problems/count-good-triplets-in-an-array>
+
+```cpp
+class FenwickTree {
+ private:
+  vector<int> tree;
+
+ public:
+  // Indices start at 1.
+  FenwickTree(int size) : tree(size + 1, 0) {}
+
+  // Time complexity: O(logn)
+  void update(int index, int delta) {
+    ++index;
+    while (index < tree.size()) {
+      tree[index] += delta;
+      index += index & (~index + 1);
+    }
+  }
+
+  // Time complexity: O(logn)
+  int query(int index) {
+    ++index;
+    int result = 0;
+    while (index > 0) {
+      result += tree[index];
+      index -= index & (~index + 1);
+    }
+    return result;
+  }
+};
 ```
 
 ### Trie
@@ -1201,6 +1237,7 @@ a &= ~(1 << i);     // Clear ith bit.
 (a & (1 << i)) != 0 // Check ith bit.
 (a & (1 << i)) == 1 // Bad: it may not be 1.
 a = a & (a - 1);    // Clear the least significant bit.
+a = a & (~a + 1);   // Clear bits except the least significant bit.
 
 // Iterate over all submask of a.
 for (int i = a; i > 0; i = (i - 1) & a) {
